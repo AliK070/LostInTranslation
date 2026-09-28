@@ -13,26 +13,58 @@ public class GUI {
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
+
+            Translator translator = new JSONTranslator();
+            CountryCodeConverter countryConverter = new CountryCodeConverter();
+            LanguageCodeConverter languageConverter = new LanguageCodeConverter();
+
+            String[] countries = new String[translator.getCountryCodes().size()];
+
+            for(int i = 0; i < translator.getCountryCodes().size(); i++){
+                String countryCode = translator.getCountryCodes().get(i);
+                countries[i] = countryConverter.fromCountryCode(countryCode);
+            }
+
+            JList<String> countryList = new JList<>(countries);
+            countryList.setVisibleRowCount(8);
+            countryList.setFixedCellWidth(150);
+
+            JScrollPane countryScroll = new JScrollPane(countryList);
             JPanel countryPanel = new JPanel();
-            JTextField countryField = new JTextField(10);
-            countryField.setText("can");
-            countryField.setEditable(false); // we only support the "can" country code for now
-            countryPanel.add(new JLabel("Country:"));
-            countryPanel.add(countryField);
 
+            String[] languages = new String[translator.getLanguageCodes().size()];
+
+            for(int i = 0; i < translator.getLanguageCodes().size(); i++){
+                String languageCode = translator.getLanguageCodes().get(i);
+                languages[i] = languageConverter.fromLanguageCode(languageCode);
+            }
+
+            JComboBox<String> languageDropDown = new JComboBox<>(languages);
             JPanel languagePanel = new JPanel();
-            JTextField languageField = new JTextField(10);
             languagePanel.add(new JLabel("Language:"));
-            languagePanel.add(languageField);
+            languagePanel.add(languageDropDown);
 
-            JPanel buttonPanel = new JPanel();
-            JButton submit = new JButton("Submit");
-            buttonPanel.add(submit);
 
-            JLabel resultLabelText = new JLabel("Translation:");
-            buttonPanel.add(resultLabelText);
-            JLabel resultLabel = new JLabel("\t\t\t\t\t\t\t");
-            buttonPanel.add(resultLabel);
+
+//            JTextField countryField = new JTextField(10);
+//            countryField.setText("can");
+//            countryField.setEditable(false); // we only support the "can" country code for now
+//            countryPanel.add(new JLabel("Country:"));
+//            countryPanel.add(countryField);
+//
+//            JPanel languagePanel = new JPanel();
+//            JTextField languageField = new JTextField(10);
+//            languagePanel.add(new JLabel("Language:"));
+//            languagePanel.add(languageField);
+//
+//            JPanel buttonPanel = new JPanel();
+//            JButton submit = new JButton("Submit");
+//            buttonPanel.add(submit);
+//
+//            JLabel resultLabelText = new JLabel("Translation:");
+//            buttonPanel.add(resultLabelText);
+//            JLabel resultLabel = new JLabel("\t\t\t\t\t\t\t");
+//            buttonPanel.add(resultLabel);
 
 
             // adding listener for when the user clicks the submit button
